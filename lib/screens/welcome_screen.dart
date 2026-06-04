@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky/screens/home_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -12,6 +13,12 @@ class WelcomeScreen extends StatefulWidget {
 class _WelcomeScreenState extends State<WelcomeScreen> {
   final _nameController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +48,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           style: TextStyle(
                             fontSize: 28,
                             fontWeight: FontWeight.w400,
-                            color: Colors.white,
+                            color: Color(0xFFFFFCFC),
                           ),
                         ),
                       ],
@@ -50,7 +57,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     const Text(
                       'Welcome To Tasky',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: Color(0xFFFFFCFC),
                         fontSize: 24,
                         letterSpacing: 0.5,
                       ),
@@ -59,7 +66,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     const Text(
                       'Your productivity journey starts here.',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: Color(0xFFFFFCFC),
                         fontSize: 16,
                         letterSpacing: 0.5,
                       ),
@@ -79,7 +86,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           padding: EdgeInsets.all(8.0),
                           child: Text(
                             'Full Name',
-                            style: TextStyle(color: Colors.white, fontSize: 16),
+                            style: TextStyle(
+                              color: Color(0xFFFFFCFC),
+                              fontSize: 16,
+                            ),
                           ),
                         ),
 
@@ -95,14 +105,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                               return 'Name must contain at least 2 letters';
                             }
 
-                            if (value.trim().length > 9) {
-                              return 'Name must not exceed 9 letters';
-                            }
-
                             return null;
                           },
-                          cursorColor: Colors.white,
-                          style: const TextStyle(color: Colors.white),
+                          cursorColor: const Color(0xFFFFFCFC),
+                          style: const TextStyle(color: Color(0xFFFFFCFC)),
                           decoration: InputDecoration(
                             hintText: 'e.g. Ahmed Goda',
                             hintStyle: const TextStyle(
@@ -129,12 +135,22 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       height: 40,
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            Navigator.push(
+                            /// Give me a copy of the SharedPrefrences stored on the device
+                            final pref = await SharedPreferences.getInstance();
+
+                            /// Instead of reading the text twice.
+                            final name = _nameController.text.trim();
+
+                            /// pref -> He still holds the application's storage file.
+                            await pref.setString('userName', name);
+
+                            if (!context.mounted) return;
+                            Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const HomeScreen(),
+                                builder: (_) => HomeScreen(name: name),
                               ),
                             );
                           } else {
@@ -143,7 +159,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF15B86C),
-                          foregroundColor: Colors.white,
+                          foregroundColor: const Color(0xFFFFFCFC),
                         ),
                         child: const Text(
                           "Let’s Get Started",

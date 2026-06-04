@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:tasky/screens/welcome_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasky/core/app_router.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
+
+  final pref = await SharedPreferences.getInstance();
+  final String? userName = pref.getString('userName');
+
+  runApp(MyApp(name: userName));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({super.key, required this.name});
+
+  final String? name;
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: WelcomeScreen(),
+      home: AppRouter.getStartScreen(name: name),
     );
   }
 }

@@ -1,12 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:tasky/screens/add_task.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key, required this.name});
 
+  final String name;
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF181818),
+      floatingActionButton: SizedBox(
+        height: 45,
+        //width: 167,
+        child: FloatingActionButton.extended(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const AddTask()),
+            );
+          },
+          backgroundColor: const Color(0xFF15B86C),
+          foregroundColor: const Color(0xFFFFFCFC),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadiusGeometry.circular(30),
+          ),
+          icon: const Icon(Icons.add),
+          label: const Text('Add New Task'),
+        ),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -20,17 +47,17 @@ class HomeScreen extends StatelessWidget {
                     width: 42,
                   ),
                   const SizedBox(width: 8),
-                  const Column(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Good Evening ,Usama',
-                        style: TextStyle(
+                        'Good Evening, ${widget.name}',
+                        style: const TextStyle(
                           fontSize: 16,
                           color: Color(0xFFFFFCFC),
                         ),
                       ),
-                      Text(
+                      const Text(
                         'One task at a time.One step closer.',
                         style: TextStyle(
                           fontSize: 14,
@@ -40,6 +67,12 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                 ],
+              ),
+
+              const SizedBox(height: 16),
+              const Text(
+                'Yuhuu ,Your work Is almost done !',
+                style: TextStyle(color: Color(0xFFFFFCFC), fontSize: 32),
               ),
             ],
           ),
