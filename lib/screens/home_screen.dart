@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasky/models/task_model.dart';
 import 'package:tasky/screens/add_task.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -11,6 +15,32 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<TaskModel> tasks = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadTasks();
+  }
+
+  Future<void> _loadTasks() async {
+    final pref = await SharedPreferences.getInstance();
+
+    final taskJson = pref.getString('tasks');
+
+    if (taskJson != null) {
+      final List<dynamic> decodedTasks = jsonDecode(taskJson);
+
+      final loadedTasks = decodedTasks
+          .map<TaskModel>((taskMap) => TaskModel.fromJson(taskMap))
+          .toList();
+
+      setState(() {
+        tasks = loadedTasks;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,8 +49,8 @@ class _HomeScreenState extends State<HomeScreen> {
         height: 45,
         //width: 167,
         child: FloatingActionButton.extended(
-          onPressed: () {
-            Navigator.push(
+          onPressed: () async {
+            await Navigator.push(
               context,
               MaterialPageRoute(builder: (_) => const AddTask()),
             );
@@ -74,6 +104,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 'Yuhuu ,Your work Is almost done !',
                 style: TextStyle(color: Color(0xFFFFFCFC), fontSize: 32),
               ),
+
+              const SizedBox(height: 16),
+             
             ],
           ),
         ),
