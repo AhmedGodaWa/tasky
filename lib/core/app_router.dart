@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tasky/screens/home_screen.dart';
+import 'package:tasky/screens/main_screen.dart';
 import 'package:tasky/screens/welcome_screen.dart';
 
 class AppRouter {
@@ -8,6 +8,6 @@ class AppRouter {
       return const WelcomeScreen();
     }
 
-    return HomeScreen(name: name);
+    return const MainScreen();
   }
 }

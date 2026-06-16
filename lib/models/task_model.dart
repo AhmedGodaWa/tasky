@@ -2,11 +2,13 @@ class TaskModel {
   final String taskName;
   final String taskDescription;
   final bool isHighPriority;
+  final bool isCompleted;
 
   TaskModel({
     required this.taskName,
     required this.taskDescription,
     required this.isHighPriority,
+    this.isCompleted = false,
   });
 
   /// we convert the TaskModel to a Map.
@@ -16,6 +18,7 @@ class TaskModel {
       'taskName': taskName,
       'taskDescription': taskDescription,
       'isHighPriority': isHighPriority,
+      "isCompleted": isCompleted,
     };
   }
 
@@ -30,6 +33,21 @@ class TaskModel {
       taskName: json['taskName'],
       taskDescription: json['taskDescription'],
       isHighPriority: json['isHighPriority'],
+      isCompleted: json["isCompleted"] ?? false,
+    );
+  }
+
+  TaskModel copyWith({
+    String? taskName,
+    String? taskDescription,
+    bool? isHighPriority,
+    bool? isCompleted,
+  }) {
+    return TaskModel(
+      taskName: taskName ?? this.taskName,
+      taskDescription: taskDescription ?? this.taskDescription,
+      isHighPriority: isHighPriority ?? this.isHighPriority,
+      isCompleted: isCompleted ?? this.isCompleted,
     );
   }
 }

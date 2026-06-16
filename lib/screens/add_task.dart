@@ -29,7 +29,7 @@ class _AddTaskState extends State<AddTask> {
     return GestureDetector(
       onTap: FocusScope.of(context).unfocus,
       child: Scaffold(
-        backgroundColor: const Color(0xFF181818),
+        // backgroundColor: const Color(0xFF181818),
         appBar: AppBar(
           backgroundColor: const Color(0xFF181818),
           foregroundColor: const Color(0xFFFFFCFC),
@@ -105,12 +105,6 @@ class _AddTaskState extends State<AddTask> {
                           textInputAction: TextInputAction.done,
 
                           controller: _taskDescriptionController,
-                          validator: (value) {
-                            if (value == null || value.trim().isEmpty) {
-                              return 'Enter task description';
-                            }
-                            return null;
-                          },
                           cursorColor: const Color(0xFFFFFCFC),
                           style: const TextStyle(color: Color(0xFFFFFCFC)),
                           decoration: InputDecoration(
@@ -218,7 +212,7 @@ class _AddTaskState extends State<AddTask> {
                           /// We have now finished the entire saving process.
                           await pref.setString('tasks', updateTasksJson);
 
-                          Navigator.pop(context);
+                          Navigator.pop(context, true);
                         }
                       },
                       style: ElevatedButton.styleFrom(

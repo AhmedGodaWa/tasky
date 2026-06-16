@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tasky/screens/home_screen.dart';
+import 'package:tasky/screens/main_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -25,7 +25,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     return GestureDetector(
       onTap: FocusScope.of(context).unfocus,
       child: Scaffold(
-        backgroundColor: const Color(0xff181818),
+        // backgroundColor: const Color(0xff181818),
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -150,7 +150,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                builder: (_) => HomeScreen(name: name),
+                                builder: (_) => const MainScreen(),
                               ),
                             );
                           } else {
