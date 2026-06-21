@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasky/models/task_model.dart';
 import 'package:tasky/screens/complete_screen.dart';
 import 'package:tasky/screens/home_screen.dart';
 import 'package:tasky/screens/profile_screen.dart';
@@ -13,17 +17,69 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  List<TaskModel> tasks = [];
+  bool isLoading = false;
   int selectedIndex = 0;
 
-  final List<Widget> screens = [
-    const HomeScreen(),
-    const TodoScreen(),
-    const CompleteScreen(),
-    const ProfileScreen(),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _loadTasks();
+  }
+
+  Future<void> _loadTasks() async {
+    setState(() {
+      isLoading = true;
+    });
+    //await Future.delayed(const Duration(seconds: 3));
+    final pref = await SharedPreferences.getInstance();
+
+    final taskJson = pref.getString('tasks');
+
+    if (taskJson != null) {
+      final List<dynamic> decodedTasks = jsonDecode(taskJson);
+
+      final loadedTasks = decodedTasks
+          .map<TaskModel>((taskMap) => TaskModel.fromJson(taskMap))
+          .toList();
+
+      tasks = loadedTasks;
+    }
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  Future<void> _saveTasks() async {
+    final pref = await SharedPreferences.getInstance();
+
+    final taskJson = jsonEncode(tasks.map((task) => task.toJson()).toList());
+    await pref.setString('tasks', taskJson);
+  }
+
+  Future<void> _onTaskChanged(TaskModel task, bool? value) async {
+    if (value == null) return;
+
+    final index = tasks.indexOf(task);
+
+    final updatedTask = tasks[index].copyWith(isCompleted: value);
+
+    setState(() {
+      tasks[index] = updatedTask;
+    });
+
+    await _saveTasks();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final screens = [
+      HomeScreen(tasks: tasks, onChanged: _onTaskChanged),
+      TodoScreen(tasks: tasks, onChanged: _onTaskChanged),
+      CompleteScreen(tasks: tasks),
+      const ProfileScreen(),
+    ];
+
     return Scaffold(
       body: screens[selectedIndex],
 

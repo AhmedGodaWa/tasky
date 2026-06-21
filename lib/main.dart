@@ -20,7 +20,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(scaffoldBackgroundColor: const Color(0xFF181818)),
+      theme: ThemeData(
+        scaffoldBackgroundColor: const Color(0xFF181818),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFF181818),
+          foregroundColor: Color(0xFFFFFCFC),
+          centerTitle: false,
+          titleTextStyle: TextStyle(fontSize: 22),
+        ),
+      ),
       home: AppRouter.getStartScreen(name: name),
     );
   }

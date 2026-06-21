@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky/models/task_model.dart';
 
-class AddTask extends StatefulWidget {
-  const AddTask({super.key});
+class AddTaskScreen extends StatefulWidget {
+  const AddTaskScreen({super.key});
 
   @override
-  State<AddTask> createState() => _AddTaskState();
+  State<AddTaskScreen> createState() => _AddTaskScreenState();
 }
 
-class _AddTaskState extends State<AddTask> {
+class _AddTaskScreenState extends State<AddTaskScreen> {
   final _taskNameController = TextEditingController();
   final _taskDescriptionController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
