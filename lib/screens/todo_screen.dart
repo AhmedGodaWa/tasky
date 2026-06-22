@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:tasky/models/task_model.dart';
 import 'package:tasky/widgets/task_list.dart';
@@ -20,23 +19,34 @@ class _TodoScreenState extends State<TodoScreen> {
     final todoTasks = widget.tasks
         .where((element) => !element.isCompleted)
         .toList();
-    return Scaffold(
-      appBar: AppBar(title: const Text('ToDo Tasks')),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: isLoading
-            ? const Center(
-                child: CircularProgressIndicator(color: Color(0xFF15B86C)),
-              )
-            : widget.tasks.isEmpty
-            ? const Center(
-                child: Text(
-                  'No Tasks',
-                  style: TextStyle(fontSize: 25, color: Colors.white),
-                ),
-              )
-            : TaskList(tasks: todoTasks, onChanged: widget.onChanged),
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Padding(
+          padding: EdgeInsets.all(16),
+          child: Text(
+            'ToDo Tasks',
+            style: TextStyle(fontSize: 22, color: Color(0xFFFFFCFC)),
+          ),
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: isLoading
+                ? const Center(
+                    child: CircularProgressIndicator(color: Color(0xFF15B86C)),
+                  )
+                : widget.tasks.isEmpty
+                ? const Center(
+                    child: Text(
+                      'No Tasks',
+                      style: TextStyle(fontSize: 25, color: Colors.white),
+                    ),
+                  )
+                : TaskList(tasks: todoTasks, onChanged: widget.onChanged),
+          ),
+        ),
+      ],
     );
   }
 }

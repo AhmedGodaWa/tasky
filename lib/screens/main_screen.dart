@@ -76,12 +76,12 @@ class _MainScreenState extends State<MainScreen> {
     final screens = [
       HomeScreen(tasks: tasks, onChanged: _onTaskChanged),
       TodoScreen(tasks: tasks, onChanged: _onTaskChanged),
-      CompleteScreen(tasks: tasks),
+      CompleteScreen(tasks: tasks, onChanged: _onTaskChanged),
       const ProfileScreen(),
     ];
 
     return Scaffold(
-      body: screens[selectedIndex],
+      body: SafeArea(child: screens[selectedIndex]),
 
       bottomNavigationBar: BottomNavigationBar(
         onTap: (value) {
