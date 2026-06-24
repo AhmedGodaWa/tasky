@@ -74,7 +74,11 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     final screens = [
-      HomeScreen(tasks: tasks, onChanged: _onTaskChanged),
+      HomeScreen(
+        tasks: tasks,
+        onChanged: _onTaskChanged,
+        onTaskAdded: _loadTasks,
+      ),
       TodoScreen(tasks: tasks, onChanged: _onTaskChanged),
       CompleteScreen(tasks: tasks, onChanged: _onTaskChanged),
       const ProfileScreen(),

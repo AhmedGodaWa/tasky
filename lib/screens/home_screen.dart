@@ -1,17 +1,20 @@
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky/models/task_model.dart';
 import 'package:tasky/screens/add_task_screen.dart';
+import 'package:tasky/widgets/achieved_tasks_card.dart';
 import 'package:tasky/widgets/task_list.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key, required this.tasks, required this.onChanged});
+  const HomeScreen({
+    super.key,
+    required this.tasks,
+    required this.onChanged,
+    required this.onTaskAdded,
+  });
   final List<TaskModel> tasks;
-  final void Function(
-  TaskModel,
-  bool?,
-) onChanged;
+  final void Function(TaskModel, bool?) onChanged;
+  final Future<void> Function() onTaskAdded;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -41,19 +44,24 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final totalTasks = widget.tasks.length;
+    final completedTasks = widget.tasks
+        .where((task) => task.isCompleted)
+        .length;
+    final progress = totalTasks == 0 ? 0.0 : completedTasks / totalTasks;
+    final percentage = (progress * 100).toInt();
+
     return Scaffold(
-      // backgroundColor: const Color(0xFF181818),
       floatingActionButton: SizedBox(
         height: 45,
-        //width: 167,
         child: FloatingActionButton.extended(
           onPressed: () async {
             final result = await Navigator.push(
               context,
               MaterialPageRoute(builder: (_) => const AddTaskScreen()),
             );
-            if (result != null && result == true) {
-              // await _loadTasks();
+            if (result == true) {
+              await widget.onTaskAdded();
             }
           },
           backgroundColor: const Color(0xFF15B86C),
@@ -107,6 +115,14 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
 
               const SizedBox(height: 24),
+
+              AchievedTasksCard(
+                completedTasks: completedTasks,
+                totalTasks: totalTasks,
+                progress: progress,
+                percentage: percentage,
+              ),
+              const SizedBox(height: 10),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -116,7 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       style: TextStyle(fontSize: 20, color: Color(0xFFFFFCFC)),
                     ),
 
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 10),
                     Expanded(
                       child: isLoading
                           ? const Center(
@@ -124,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 color: Color(0xFF15B86C),
                               ),
                             )
-                          :widget. tasks.isEmpty
+                          : widget.tasks.isEmpty
                           ? const Center(
                               child: Text(
                                 'No Data',
@@ -135,8 +151,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             )
                           : TaskList(
-                              tasks: widget. tasks,
-                              onChanged: widget.onChanged
+                              tasks: widget.tasks,
+                              onChanged: widget.onChanged,
                             ),
                     ),
                   ],
