@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky/models/task_model.dart';
 import 'package:tasky/screens/add_task_screen.dart';
 import 'package:tasky/widgets/achieved_tasks_card.dart';
+import 'package:tasky/widgets/high_priority_tasks_widget.dart';
 import 'package:tasky/widgets/task_list.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -114,14 +115,21 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: TextStyle(color: Color(0xFFFFFCFC), fontSize: 32),
               ),
 
-              const SizedBox(height: 24),
-
-              AchievedTasksCard(
-                completedTasks: completedTasks,
-                totalTasks: totalTasks,
-                progress: progress,
-                percentage: percentage,
+              Padding(
+                padding: const EdgeInsets.only(top: 10, bottom: 8),
+                child: AchievedTasksCard(
+                  completedTasks: completedTasks,
+                  totalTasks: totalTasks,
+                  progress: progress,
+                  percentage: percentage,
+                ),
               ),
+
+              HighPriorityTasksWidget(
+                tasks: widget.tasks,
+                onChanged: widget.onChanged,
+              ),
+
               const SizedBox(height: 10),
               Expanded(
                 child: Column(
