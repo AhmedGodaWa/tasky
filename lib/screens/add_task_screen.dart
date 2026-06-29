@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasky/core/widgets/custom_text_form_field.dart';
 import 'package:tasky/models/task_model.dart';
 
 class AddTaskScreen extends StatefulWidget {
@@ -50,19 +51,11 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   child: Form(
                     key: _formKey,
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      // crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(height: 24),
-                        const Text(
-                          'Task Name',
-                          style: TextStyle(
-                            color: Color(0xFFFFFCFC),
-                            fontSize: 16,
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        TextFormField(
-                          textInputAction: TextInputAction.next,
+
+                        CustomTextFormField(
                           controller: _taskNameController,
                           validator: (value) {
                             if (value == null || value.trim().isEmpty) {
@@ -70,60 +63,20 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                             }
                             return null;
                           },
-                          cursorColor: const Color(0xFFFFFCFC),
-                          style: const TextStyle(color: Color(0xFFFFFCFC)),
-                          decoration: InputDecoration(
-                            hintText: 'Finish UI design for login screen',
-                            hintStyle: const TextStyle(
-                              color: Color(0xFF6D6D6D),
-                            ),
-                            filled: true,
-                            fillColor: const Color(0xFF282828),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16),
-                              borderSide: BorderSide.none,
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                              vertical: 16,
-                              horizontal: 16,
-                            ),
-                          ),
+                          title: 'Task Name',
+                          hintText: 'Finish UI design for login screen',
+                          textInputAction: TextInputAction.next,
                         ),
 
                         const SizedBox(height: 20),
 
-                        const Text(
-                          'Task Description',
-                          style: TextStyle(
-                            color: Color(0xFFFFFCFC),
-                            fontSize: 16,
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        TextFormField(
+                        CustomTextFormField(
                           maxLines: 5,
-                          textInputAction: TextInputAction.done,
-
                           controller: _taskDescriptionController,
-                          cursorColor: const Color(0xFFFFFCFC),
-                          style: const TextStyle(color: Color(0xFFFFFCFC)),
-                          decoration: InputDecoration(
-                            hintText:
-                                'Finish onboarding UI and hand off to devs by Thursday.',
-                            hintStyle: const TextStyle(
-                              color: Color(0xFF6D6D6D),
-                            ),
-                            filled: true,
-                            fillColor: const Color(0xFF282828),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16),
-                              borderSide: BorderSide.none,
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                              vertical: 16,
-                              horizontal: 16,
-                            ),
-                          ),
+                          title: 'Task Description',
+                          hintText:
+                              'Finish onboarding UI and hand off to devs by Thursday.',
+                          textInputAction: TextInputAction.done,
                         ),
 
                         const SizedBox(height: 20),

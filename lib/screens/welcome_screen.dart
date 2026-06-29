@@ -94,7 +94,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         ),
 
                         TextFormField(
-                          //maxLength: 9,
                           controller: _nameController,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
