@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:tasky/models/task_model.dart';
+import 'package:tasky/screens/high_priority_screen.dart';
 import 'package:tasky/widgets/high_priority_task_item.dart';
 
 class HighPriorityTasksWidget extends StatelessWidget {
@@ -62,16 +63,25 @@ class HighPriorityTasksWidget extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Container(
-              padding: const EdgeInsets.all(8),
-              height: 48,
-              width: 48,
-              decoration: BoxDecoration(
-                color: const Color(0xFF282828),
-                shape: BoxShape.circle,
-                border: Border.all(color: const Color(0xFF6E6E6E)),
+            child: InkWell(
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      HighPriorityScreen(tasks: tasks, onChanged: onChanged),
+                ),
               ),
-              child: SvgPicture.asset('assets/images/arrow_up_right.svg'),
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                height: 48,
+                width: 48,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF282828),
+                  shape: BoxShape.circle,
+                  border: Border.all(color: const Color(0xFF6E6E6E)),
+                ),
+                child: SvgPicture.asset('assets/images/arrow_up_right.svg'),
+              ),
             ),
           ),
         ],

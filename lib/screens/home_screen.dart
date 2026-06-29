@@ -4,7 +4,7 @@ import 'package:tasky/models/task_model.dart';
 import 'package:tasky/screens/add_task_screen.dart';
 import 'package:tasky/widgets/achieved_tasks_card.dart';
 import 'package:tasky/widgets/high_priority_tasks_widget.dart';
-import 'package:tasky/widgets/task_list.dart';
+import 'package:tasky/widgets/task_sliver_list.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -77,95 +77,89 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Image.asset(
-                    'assets/images/person.png',
-                    height: 42,
-                    width: 42,
-                  ),
-                  const SizedBox(width: 8),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Good Evening, $userName',
-                        style: const TextStyle(
-                          fontSize: 16,
-                          color: Color(0xFFFFFCFC),
-                        ),
-                      ),
-                      const Text(
-                        'One task at a time.One step closer.',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Color(0xFFC6C6C6),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 16),
-              const Text(
-                'Yuhuu ,Your work Is almost done !',
-                style: TextStyle(color: Color(0xFFFFFCFC), fontSize: 32),
-              ),
-
-              Padding(
-                padding: const EdgeInsets.only(top: 10, bottom: 8),
-                child: AchievedTasksCard(
-                  completedTasks: completedTasks,
-                  totalTasks: totalTasks,
-                  progress: progress,
-                  percentage: percentage,
-                ),
-              ),
-
-              HighPriorityTasksWidget(
-                tasks: widget.tasks,
-                onChanged: widget.onChanged,
-              ),
-
-              const SizedBox(height: 10),
-              Expanded(
+          child: CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Row(
+                      children: [
+                        Image.asset(
+                          'assets/images/person.png',
+                          height: 42,
+                          width: 42,
+                        ),
+                        const SizedBox(width: 8),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Good Evening, $userName',
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Color(0xFFFFFCFC),
+                              ),
+                            ),
+                            const Text(
+                              'One task at a time.One step closer.',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFFC6C6C6),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    const Text(
+                      'Yuhuu ,Your work Is almost done !',
+                      style: TextStyle(color: Color(0xFFFFFCFC), fontSize: 32),
+                    ),
+                    const SizedBox(height: 10),
+                    AchievedTasksCard(
+                      completedTasks: completedTasks,
+                      totalTasks: totalTasks,
+                      progress: progress,
+                      percentage: percentage,
+                    ),
+                    const SizedBox(height: 8),
+                    HighPriorityTasksWidget(
+                      tasks: widget.tasks,
+                      onChanged: widget.onChanged,
+                    ),
+                    const SizedBox(height: 10),
                     const Text(
                       'My Tasks',
                       style: TextStyle(fontSize: 20, color: Color(0xFFFFFCFC)),
                     ),
-
-                    const SizedBox(height: 10),
-                    Expanded(
-                      child: isLoading
-                          ? const Center(
-                              child: CircularProgressIndicator(
-                                color: Color(0xFF15B86C),
-                              ),
-                            )
-                          : widget.tasks.isEmpty
-                          ? const Center(
-                              child: Text(
-                                'No Data',
-                                style: TextStyle(
-                                  fontSize: 25,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            )
-                          : TaskList(
-                              tasks: widget.tasks,
-                              onChanged: widget.onChanged,
-                            ),
-                    ),
                   ],
                 ),
               ),
+              const SliverToBoxAdapter(child: SizedBox(height: 10)),
+              if (isLoading)
+                const SliverToBoxAdapter(
+                  child: Center(
+                    child: CircularProgressIndicator(color: Color(0xFF15B86C)),
+                  ),
+                )
+              else if (widget.tasks.isEmpty)
+                const SliverToBoxAdapter(
+                  child: Center(
+                    child: Text(
+                      'No Data',
+                      style: TextStyle(fontSize: 25, color: Colors.white),
+                    ),
+                  ),
+                )
+              else
+                TaskSliverList(
+                  tasks: widget.tasks,
+                  onChanged: widget.onChanged,
+                ),
+
+              const SliverToBoxAdapter(child: SizedBox(height: 60)),
             ],
           ),
         ),
@@ -173,3 +167,41 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
+
+/*
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        
+
+                        
+                        Expanded(
+                          child: isLoading
+                              ? const Center(
+                                  child: CircularProgressIndicator(
+                                    color: Color(0xFF15B86C),
+                                  ),
+                                )
+                              : widget.tasks.isEmpty
+                              ? const Center(
+                                  child: Text(
+                                    'No Data',
+                                    style: TextStyle(
+                                      fontSize: 25,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                )
+                              : TaskList(
+                                  tasks: widget.tasks,
+                                  onChanged: widget.onChanged,
+                                ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+
+ */

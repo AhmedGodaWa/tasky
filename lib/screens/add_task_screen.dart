@@ -168,6 +168,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           /// We will create a map.
 
                           final task = TaskModel(
+                            id: DateTime.now().microsecondsSinceEpoch
+                                .toString(),
+
                             taskName: _taskNameController.text,
                             taskDescription: _taskDescriptionController.text,
                             isHighPriority: isHighPriority,

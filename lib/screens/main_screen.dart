@@ -57,10 +57,10 @@ class _MainScreenState extends State<MainScreen> {
     await pref.setString('tasks', taskJson);
   }
 
-  Future<void> _onTaskChanged(TaskModel task, bool? value) async {
+  void _onTaskChanged(TaskModel task, bool? value) {
     if (value == null) return;
 
-    final index = tasks.indexOf(task);
+    final index = tasks.indexWhere((t) => t.id == task.id);
 
     final updatedTask = tasks[index].copyWith(isCompleted: value);
 
@@ -68,7 +68,7 @@ class _MainScreenState extends State<MainScreen> {
       tasks[index] = updatedTask;
     });
 
-    await _saveTasks();
+    _saveTasks();
   }
 
   @override
