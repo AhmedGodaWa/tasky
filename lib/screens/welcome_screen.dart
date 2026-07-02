@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasky/core/widgets/custom_text_form_field.dart';
+import 'package:tasky/core/widgets/primary_button.dart';
 import 'package:tasky/screens/main_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -81,19 +83,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text(
-                            'Full Name',
-                            style: TextStyle(
-                              color: Color(0xFFFFFCFC),
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-
-                        TextFormField(
+                        CustomTextFormField(
                           controller: _nameController,
+                          title: 'Full Name',
+                          hintText: 'e.g. Ahmed Goda',
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Enter your name';
@@ -105,65 +98,36 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
                             return null;
                           },
-                          cursorColor: const Color(0xFFFFFCFC),
-                          style: const TextStyle(color: Color(0xFFFFFCFC)),
-                          decoration: InputDecoration(
-                            hintText: 'e.g. Ahmed Goda',
-                            hintStyle: const TextStyle(
-                              color: Color(0xFF6D6D6D),
-                            ),
-                            filled: true,
-                            fillColor: const Color(0xFF282828),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16),
-                              borderSide: BorderSide.none,
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                              vertical: 16,
-                              horizontal: 16,
-                            ),
-                          ),
                         ),
                       ],
                     ),
 
                     const SizedBox(height: 24),
 
-                    SizedBox(
-                      height: 40,
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            /// Give me a copy of the SharedPrefrences stored on the device
-                            final pref = await SharedPreferences.getInstance();
+                    PrimaryButton(
+                      text: "Let’s Get Started",
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          /// Give me a copy of the SharedPrefrences stored on the device
+                          final pref = await SharedPreferences.getInstance();
 
-                            /// Instead of reading the text twice.
-                            final name = _nameController.text.trim();
+                          /// Instead of reading the text twice.
+                          final name = _nameController.text.trim();
 
-                            /// pref -> He still holds the application's storage file.
-                            await pref.setString('userName', name);
+                          /// pref -> He still holds the application's storage file.
+                          await pref.setString('userName', name);
 
-                            if (!context.mounted) return;
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => const MainScreen(),
-                              ),
-                            );
-                          } else {
-                            return;
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF15B86C),
-                          foregroundColor: const Color(0xFFFFFCFC),
-                        ),
-                        child: const Text(
-                          "Let’s Get Started",
-                          style: TextStyle(fontSize: 14),
-                        ),
-                      ),
+                          if (!context.mounted) return;
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const MainScreen(),
+                            ),
+                          );
+                        } else {
+                          return;
+                        }
+                      },
                     ),
                   ],
                 ),

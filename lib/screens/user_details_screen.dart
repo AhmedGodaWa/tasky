@@ -31,9 +31,9 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
   Future<void> _loadUserData() async {
     final prefs = await SharedPreferences.getInstance();
 
-    _userNameController.text =
-        prefs.getString('userName') ?? 'One task at a time. One step closer.';
-    _motivationController.text = prefs.getString('motivation') ?? '';
+    _userNameController.text = prefs.getString('userName') ?? '';
+    _motivationController.text =
+        prefs.getString('motivation') ?? 'One task at a time. One step closer.';
   }
 
   Future<void> _saveUserData() async {
