@@ -9,6 +9,7 @@ class CustomTextFormField extends StatelessWidget {
     this.maxLines,
     this.validator,
     this.textInputAction,
+    this.borderSide = BorderSide.none,
   });
 
   final String title;
@@ -20,9 +21,14 @@ class CustomTextFormField extends StatelessWidget {
   /* This means exactly: 
       final String? Function(String?)? validator;
   */
+  final BorderSide borderSide;
 
   @override
   Widget build(BuildContext context) {
+    final outlineBorder = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(16),
+      borderSide: borderSide,
+    );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -44,10 +50,9 @@ class CustomTextFormField extends StatelessWidget {
             hintStyle: const TextStyle(color: Color(0xFF6D6D6D)),
             filled: true,
             fillColor: const Color(0xFF282828),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide.none,
-            ),
+            border: outlineBorder,
+            enabledBorder: outlineBorder,
+            focusedBorder: outlineBorder,
             contentPadding: const EdgeInsets.symmetric(
               vertical: 16,
               horizontal: 16,

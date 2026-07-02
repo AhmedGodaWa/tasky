@@ -25,7 +25,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     return GestureDetector(
       onTap: FocusScope.of(context).unfocus,
       child: Scaffold(
-        // backgroundColor: const Color(0xff181818),
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(16),

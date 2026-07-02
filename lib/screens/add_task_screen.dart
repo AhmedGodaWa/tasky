@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky/core/widgets/custom_text_form_field.dart';
+import 'package:tasky/core/widgets/primary_button.dart';
 import 'package:tasky/models/task_model.dart';
 
 class AddTaskScreen extends StatefulWidget {
@@ -111,7 +112,51 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                 child: SafeArea(
                   top: false,
-                  child: SizedBox(
+                  child: PrimaryButton(
+                    text: 'Add Task',
+                    icon: Icons.add,
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        final task = TaskModel(
+                          id: DateTime.now().microsecondsSinceEpoch.toString(),
+                          taskName: _taskNameController.text,
+                          taskDescription: _taskDescriptionController.text,
+                          isHighPriority: isHighPriority,
+                        );
+
+                        final pref = await SharedPreferences.getInstance();
+
+                        final tasksJson = pref.getString('tasks');
+
+                        List<dynamic> tasks = [];
+
+                        if (tasksJson != null) {
+                          tasks = jsonDecode(tasksJson);
+                        }
+
+                        tasks.add(task.toJson());
+
+                        final updateTasksJson = jsonEncode(tasks);
+
+                        await pref.setString('tasks', updateTasksJson);
+
+                        Navigator.pop(context, true);
+                      }
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/*
+
+SizedBox(
                     height: 40,
                     width: double.infinity,
                     child: ElevatedButton.icon(
@@ -182,94 +227,5 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       ),
                     ),
                   ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
 
-// bottomNavigationBar: Padding(
-//           padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-//           child: SafeArea(
-//             top: false,
-//             child: SizedBox(
-//               height: 40,
-//               width: double.infinity,
-//               child: ElevatedButton.icon(
-//                 onPressed: () async {
-//                   //if (_formKey.currentState!.validate()) {
-//                   /// Give me a copy of the SharedPrefrences stored on the device
-//                   // final pref = await SharedPreferences.getInstance();
-
-//                   /// Instead of reading the text twice.
-//                   // final name = _nameController.text.trim();
-
-//                   /// pref -> He still holds the application's storage file.
-//                   // await pref.setString('userName', name);
-
-//                   //if (!context.mounted) return;
-//                   // Navigator.pushReplacement(
-//                   //   context,
-//                   //   MaterialPageRoute(
-//                   //     builder: (_) => HomeScreen(name: name),
-//                   //   ),
-//                   // );
-//                   // } else {
-//                   //   return;
-//                   // }
-//                 },
-//                 style: ElevatedButton.styleFrom(
-//                   backgroundColor: const Color(0xFF15B86C),
-//                   foregroundColor: const Color(0xFFFFFCFC),
-//                 ),
-//                 icon: const Icon(Icons.add),
-//                 label: const Text('Add Task', style: TextStyle(fontSize: 14)),
-//               ),
-//             ),
-//           ),
-//         ),
-
-
-// ----
-
-//  Spacer(),
-//                 SizedBox(
-//                   height: 40,
-//                   width: double.infinity,
-//                   child: ElevatedButton(
-//                     onPressed: () async {
-//                       //if (_formKey.currentState!.validate()) {
-//                       /// Give me a copy of the SharedPrefrences stored on the device
-//                       // final pref = await SharedPreferences.getInstance();
-
-//                       /// Instead of reading the text twice.
-//                       // final name = _nameController.text.trim();
-
-//                       /// pref -> He still holds the application's storage file.
-//                       // await pref.setString('userName', name);
-
-//                       //if (!context.mounted) return;
-//                       // Navigator.pushReplacement(
-//                       //   context,
-//                       //   MaterialPageRoute(
-//                       //     builder: (_) => HomeScreen(name: name),
-//                       //   ),
-//                       // );
-//                       // } else {
-//                       //   return;
-//                       // }
-//                     },
-//                     style: ElevatedButton.styleFrom(
-//                       backgroundColor: const Color(0xFF15B86C),
-//                       foregroundColor: const Color(0xFFFFFCFC),
-//                     ),
-//                     child: const Text(
-//                       'Add Task',
-//                       style: TextStyle(fontSize: 14),
-//                     ),
-//                   ),
-//                 ),
+ */
