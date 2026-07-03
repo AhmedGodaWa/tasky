@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky/screens/user_details_screen.dart';
+import 'package:tasky/screens/welcome_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -30,6 +31,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
           pref.getString('motivation') ??
           'One task at a time. One step closer.';
     });
+  }
+
+  Future<void> _logout() async {
+    final pref = await SharedPreferences.getInstance();
+
+    await pref.remove('motivation');
+    await pref.remove('tasks');
+    await pref.remove('userName');
+
+    if (!mounted) return;
+
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (_) => const WelcomeScreen()),
+      (route) => false,
+    );
   }
 
   @override
@@ -163,6 +180,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             const Divider(color: Color(0xFF6E6E6E), thickness: 1),
             ListTile(
+              onTap: _logout,
               contentPadding: EdgeInsets.zero,
               leading: SvgPicture.asset(
                 'assets/images/log_out.svg',
