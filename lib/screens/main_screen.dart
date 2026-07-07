@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasky/core/services/preferences_manager.dart';
 import 'package:tasky/models/task_model.dart';
 import 'package:tasky/screens/complete_screen.dart';
 import 'package:tasky/screens/home_screen.dart';
@@ -31,10 +31,8 @@ class _MainScreenState extends State<MainScreen> {
     setState(() {
       isLoading = true;
     });
-    //await Future.delayed(const Duration(seconds: 3));
-    final pref = await SharedPreferences.getInstance();
 
-    final taskJson = pref.getString('tasks');
+    final taskJson = PreferencesManager().getTasks();
 
     if (taskJson != null) {
       final List<dynamic> decodedTasks = jsonDecode(taskJson);
@@ -51,10 +49,8 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Future<void> _saveTasks() async {
-    final pref = await SharedPreferences.getInstance();
-
     final taskJson = jsonEncode(tasks.map((task) => task.toJson()).toList());
-    await pref.setString('tasks', taskJson);
+    await PreferencesManager().saveTasks(taskJson);
   }
 
   void _onTaskChanged(TaskModel task, bool? value) {

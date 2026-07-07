@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky/core/app_router.dart';
+import 'package:tasky/core/services/preferences_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final pref = await SharedPreferences.getInstance();
-  final String? userName = pref.getString('userName');
+  await PreferencesManager().init();
+  final String? userName = PreferencesManager().getUserName();
 
   runApp(MyApp(name: userName));
 }

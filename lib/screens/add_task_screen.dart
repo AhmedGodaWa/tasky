@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasky/core/services/preferences_manager.dart';
 import 'package:tasky/core/widgets/custom_text_form_field.dart';
 import 'package:tasky/core/widgets/primary_button.dart';
 import 'package:tasky/models/task_model.dart';
@@ -124,9 +124,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           isHighPriority: isHighPriority,
                         );
 
-                        final pref = await SharedPreferences.getInstance();
-
-                        final tasksJson = pref.getString('tasks');
+                        final tasksJson = PreferencesManager().getTasks();
 
                         List<dynamic> tasks = [];
 
@@ -138,8 +136,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
 
                         final updateTasksJson = jsonEncode(tasks);
 
-                        await pref.setString('tasks', updateTasksJson);
-
+                        await PreferencesManager().saveTasks(updateTasksJson);
                         Navigator.pop(context, true);
                       }
                     },

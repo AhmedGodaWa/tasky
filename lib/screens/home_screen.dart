@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasky/core/services/preferences_manager.dart';
 import 'package:tasky/models/task_model.dart';
 import 'package:tasky/screens/add_task_screen.dart';
 import 'package:tasky/widgets/achieved_tasks_card.dart';
@@ -32,9 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _loadUserName() async {
-    final pref = await SharedPreferences.getInstance();
-
-    final savedName = pref.getString('userName');
+    final savedName = PreferencesManager().getUserName();
 
     if (savedName != null) {
       setState(() {

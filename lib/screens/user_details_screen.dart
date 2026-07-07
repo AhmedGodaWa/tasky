@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasky/core/services/preferences_manager.dart';
 import 'package:tasky/core/widgets/custom_text_form_field.dart';
 import 'package:tasky/core/widgets/primary_button.dart';
 
@@ -29,20 +29,19 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
   }
 
   Future<void> _loadUserData() async {
-    final prefs = await SharedPreferences.getInstance();
-
-    _userNameController.text = prefs.getString('userName') ?? '';
+    _userNameController.text = PreferencesManager().getUserName() ?? '';
     _motivationController.text =
-        prefs.getString('motivation') ?? 'One task at a time. One step closer.';
+        PreferencesManager().getMotivation() ??
+        'One task at a time. One step closer.';
   }
 
   Future<void> _saveUserData() async {
     if (!_formKey.currentState!.validate()) return;
 
-    final prefs = await SharedPreferences.getInstance();
-
-    await prefs.setString('userName', _userNameController.text.trim());
-    await prefs.setString('motivation', _motivationController.text.trim());
+    await PreferencesManager().saveUserName(_userNameController.text.trim());
+    await PreferencesManager().saveMotivation(
+      _motivationController.text.trim(),
+    );
 
     if (!mounted) return;
     Navigator.pop(context, true);

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasky/core/services/preferences_manager.dart';
 import 'package:tasky/screens/user_details_screen.dart';
 import 'package:tasky/screens/welcome_screen.dart';
 
@@ -23,22 +23,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future<void> _loadUserData() async {
-    final pref = await SharedPreferences.getInstance();
 
     setState(() {
-      userName = pref.getString('userName') ?? 'Guest';
+      userName = PreferencesManager().getUserName() ?? 'Guest';
       motivation =
-          pref.getString('motivation') ??
+          PreferencesManager().getMotivation() ??
           'One task at a time. One step closer.';
     });
   }
 
   Future<void> _logout() async {
-    final pref = await SharedPreferences.getInstance();
-
-    await pref.remove('motivation');
-    await pref.remove('tasks');
-    await pref.remove('userName');
+    await PreferencesManager().clearUserData();
 
     if (!mounted) return;
 

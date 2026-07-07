@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasky/core/services/preferences_manager.dart';
 import 'package:tasky/core/widgets/custom_text_form_field.dart';
 import 'package:tasky/core/widgets/primary_button.dart';
 import 'package:tasky/screens/main_screen.dart';
@@ -108,14 +108,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       text: "Let’s Get Started",
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          /// Give me a copy of the SharedPrefrences stored on the device
-                          final pref = await SharedPreferences.getInstance();
-
                           /// Instead of reading the text twice.
                           final name = _nameController.text.trim();
 
-                          /// pref -> He still holds the application's storage file.
-                          await pref.setString('userName', name);
+                          // PreferencesManager uses the same SharedPreferences instance
+                          // to save the username locally.
+                          await PreferencesManager().saveUserName(name);
 
                           if (!context.mounted) return;
                           Navigator.pushReplacement(
