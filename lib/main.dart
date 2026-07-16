@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tasky/core/app_router.dart';
 import 'package:tasky/core/services/preferences_manager.dart';
+import 'package:tasky/core/theme/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,16 +21,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        scaffoldBackgroundColor: const Color(0xFF181818),
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xFF181818),
-          foregroundColor: Color(0xFFFFFCFC),
-          centerTitle: false,
-          titleTextStyle: TextStyle(fontSize: 22),
-        ),
-      ),
-      home: AppRouter.getStartScreen(name: name),
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.dark,
+      home:
+          //WelcomeScreen(),
+          AppRouter.getStartScreen(name: name),
     );
   }
 }

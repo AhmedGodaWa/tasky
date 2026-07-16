@@ -50,7 +50,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(titleSpacing: 0, title: const Text('User Details')),
+      appBar: AppBar(title: const Text('User Details')),
       body: SafeArea(
         child: Form(
           key: _formKey,
@@ -69,7 +69,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                   title: 'User Name',
                   hintText: 'Ahmed Goda',
                   textInputAction: TextInputAction.next,
-                  borderSide: const BorderSide(color: Color(0xFF6E6E6E)),
+                  // borderSide: const BorderSide(color: Color(0xFF6E6E6E)),
                 ),
 
                 const SizedBox(height: 20),
@@ -80,7 +80,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                   title: 'Motivation Quote',
                   hintText: 'One task at a time. One step closer.',
                   textInputAction: TextInputAction.done,
-                  borderSide: const BorderSide(color: Color(0xFF6E6E6E)),
+                  // borderSide: const BorderSide(color: Color(0xFF6E6E6E)),
                 ),
 
                 const Spacer(),

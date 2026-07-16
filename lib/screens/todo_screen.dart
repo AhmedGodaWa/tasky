@@ -22,25 +22,23 @@ class _TodoScreenState extends State<TodoScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.all(16),
+        Padding(
+          padding: const EdgeInsets.all(16),
           child: Text(
             'ToDo Tasks',
-            style: TextStyle(fontSize: 22, color: Color(0xFFFFFCFC)),
+            style: Theme.of(context).textTheme.titleLarge,
           ),
         ),
         Expanded(
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: isLoading
-                ? const Center(
-                    child: CircularProgressIndicator(color: Color(0xFF15B86C)),
-                  )
-                : widget.tasks.isEmpty
-                ? const Center(
+                ? const Center(child: CircularProgressIndicator())
+                : todoTasks.isEmpty
+                ? Center(
                     child: Text(
                       'No Tasks',
-                      style: TextStyle(fontSize: 25, color: Colors.white),
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
                   )
                 : TaskList(tasks: todoTasks, onChanged: widget.onChanged),

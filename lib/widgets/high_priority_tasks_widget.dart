@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:tasky/core/theme/app_colors.dart';
 import 'package:tasky/models/task_model.dart';
 import 'package:tasky/screens/high_priority_screen.dart';
 import 'package:tasky/widgets/high_priority_task_item.dart';
@@ -23,7 +24,7 @@ class HighPriorityTasksWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: const Color(0xFF282828),
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
@@ -34,21 +35,23 @@ class HighPriorityTasksWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Text(
                     'High Priority Tasks',
-                    style: TextStyle(fontSize: 14, color: Color(0xFF15B86C)),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodyMedium!.copyWith(color: AppColors.primary),
                   ),
                 ),
                 const SizedBox(height: 8),
 
                 if (highPriorityTasks.isEmpty)
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
                     child: Text(
                       'No high-priority tasks',
-                      style: TextStyle(fontSize: 14, color: Color(0xFFA0A0A0)),
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   )
                 else
@@ -76,11 +79,19 @@ class HighPriorityTasksWidget extends StatelessWidget {
                 height: 48,
                 width: 48,
                 decoration: BoxDecoration(
-                  color: const Color(0xFF282828),
+                  color: Theme.of(context).colorScheme.surface,
                   shape: BoxShape.circle,
-                  border: Border.all(color: const Color(0xFF6E6E6E)),
+                  border: Border.all(
+                    color: Theme.of(context).colorScheme.outline,
+                  ),
                 ),
-                child: SvgPicture.asset('assets/images/arrow_up_right.svg'),
+                child: SvgPicture.asset(
+                  'assets/images/arrow_up_right.svg',
+                  colorFilter: ColorFilter.mode(
+                    Theme.of(context).colorScheme.onSurface,
+                    BlendMode.srcIn,
+                  ),
+                ),
               ),
             ),
           ),

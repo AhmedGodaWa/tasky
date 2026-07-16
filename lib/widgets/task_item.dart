@@ -16,21 +16,14 @@ class TaskItem extends StatelessWidget {
         height: 65,
         width: double.infinity,
         decoration: BoxDecoration(
-          color: const Color(0xFF282828),
+          color: Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(20),
         ),
         child: Row(
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 2),
-              child: Checkbox(
-                value: task.isCompleted,
-                activeColor: const Color(0xFF15B86C),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                onChanged: onChanged,
-              ),
+              child: Checkbox(value: task.isCompleted, onChanged: onChanged),
             ),
             Expanded(
               child: Column(
@@ -41,27 +34,31 @@ class TaskItem extends StatelessWidget {
                     task.taskName,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: task.isCompleted
-                          ? const Color(0xFFA0A0A0)
-                          : const Color(0xFFFFFCFC),
-                      fontSize: 16,
-                      decoration: task.isCompleted
-                          ? TextDecoration.lineThrough
-                          : TextDecoration.none,
-                      decorationColor: const Color(0xFFA0A0A0),
-                    ),
+                    style: task.isCompleted
+                        ? Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            color: Theme.of(context).disabledColor,
+                            decoration: TextDecoration.lineThrough,
+                            decorationColor: Theme.of(context).disabledColor,
+                          )
+                        : Theme.of(context).textTheme.bodyLarge,
+                    // style: TextStyle(
+                    //   color: task.isCompleted
+                    //       ? const Color(0xFFA0A0A0)
+                    //       : const Color(0xFFFFFCFC),
+                    //   fontSize: 16,
+                    //   decoration: task.isCompleted
+                    //       ? TextDecoration.lineThrough
+                    //       : TextDecoration.none,
+                    //   decorationColor: const Color(0xFFA0A0A0),
+                    // ),
                   ),
                   if (task.taskDescription.isNotEmpty)
                     Text(
                       task.taskDescription,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: task.isCompleted
-                            ? const Color(0xFFA0A0A0)
-                            : const Color(0xFFC6C6C6),
-                        fontSize: 14,
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: Theme.of(context).disabledColor,
                       ),
                     ),
                 ],
@@ -71,8 +68,8 @@ class TaskItem extends StatelessWidget {
               onPressed: () {},
               icon: const Icon(Icons.more_horiz),
               color: task.isCompleted
-                  ? const Color(0xFFA0A0A0)
-                  : const Color(0xFFC6C6C6),
+                  ? Theme.of(context).disabledColor
+                  : Theme.of(context).textTheme.bodyMedium!.color,
             ),
           ],
         ),

@@ -63,11 +63,6 @@ class _HomeScreenState extends State<HomeScreen> {
               await widget.onTaskAdded();
             }
           },
-          backgroundColor: const Color(0xFF15B86C),
-          foregroundColor: const Color(0xFFFFFCFC),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadiusGeometry.circular(30),
-          ),
           icon: const Icon(Icons.add),
           label: const Text('Add New Task'),
         ),
@@ -94,26 +89,20 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             Text(
                               'Good Evening, $userName',
-                              style: const TextStyle(
-                                fontSize: 16,
-                                color: Color(0xFFFFFCFC),
-                              ),
+                              style: Theme.of(context).textTheme.titleMedium,
                             ),
-                            const Text(
+                            Text(
                               'One task at a time.One step closer.',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFFC6C6C6),
-                              ),
+                              style: Theme.of(context).textTheme.bodyMedium,
                             ),
                           ],
                         ),
                       ],
                     ),
                     const SizedBox(height: 16),
-                    const Text(
+                    Text(
                       'Yuhuu ,Your work Is almost done !',
-                      style: TextStyle(color: Color(0xFFFFFCFC), fontSize: 32),
+                      style: Theme.of(context).textTheme.displayMedium,
                     ),
                     const SizedBox(height: 10),
                     AchievedTasksCard(
@@ -128,9 +117,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       onChanged: widget.onChanged,
                     ),
                     const SizedBox(height: 10),
-                    const Text(
+                    Text(
                       'My Tasks',
-                      style: TextStyle(fontSize: 20, color: Color(0xFFFFFCFC)),
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
                   ],
                 ),
@@ -139,15 +128,15 @@ class _HomeScreenState extends State<HomeScreen> {
               if (isLoading)
                 const SliverToBoxAdapter(
                   child: Center(
-                    child: CircularProgressIndicator(color: Color(0xFF15B86C)),
+                    child: CircularProgressIndicator(),
                   ),
                 )
               else if (widget.tasks.isEmpty)
-                const SliverToBoxAdapter(
+                SliverToBoxAdapter(
                   child: Center(
                     child: Text(
                       'No Data',
-                      style: TextStyle(fontSize: 25, color: Colors.white),
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
                   ),
                 )

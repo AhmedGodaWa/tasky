@@ -90,9 +90,9 @@ class _MainScreenState extends State<MainScreen> {
           });
         },
         type: BottomNavigationBarType.fixed,
-        backgroundColor: const Color(0xFF181818),
-        selectedItemColor: const Color(0xFF15B86C),
-        unselectedItemColor: const Color(0xFFFFFCFC),
+        // backgroundColor: const Color(0xFF181818),
+        // selectedItemColor: const Color(0xFF15B86C),
+        // unselectedItemColor: const Color(0xFFFFFCFC),
         currentIndex: selectedIndex,
         items: [
           BottomNavigationBarItem(
@@ -100,8 +100,10 @@ class _MainScreenState extends State<MainScreen> {
               'assets/images/home_Icon.svg',
               colorFilter: ColorFilter.mode(
                 selectedIndex == 0
-                    ? const Color(0xFF15B86C)
-                    : const Color(0xFFFFFCFC),
+                    ? Theme.of(context).colorScheme.primary
+                    : Theme.of(
+                        context,
+                      ).bottomNavigationBarTheme.unselectedItemColor!,
                 BlendMode.srcIn,
               ),
             ),
@@ -112,8 +114,10 @@ class _MainScreenState extends State<MainScreen> {
               'assets/images/todo_Icon.svg',
               colorFilter: ColorFilter.mode(
                 selectedIndex == 1
-                    ? const Color(0xFF15B86C)
-                    : const Color(0xFFFFFCFC),
+                    ? Theme.of(context).colorScheme.primary
+                    : Theme.of(
+                        context,
+                      ).bottomNavigationBarTheme.unselectedItemColor!,
                 BlendMode.srcIn,
               ),
             ),
@@ -124,8 +128,10 @@ class _MainScreenState extends State<MainScreen> {
               'assets/images/completed_Icon.svg',
               colorFilter: ColorFilter.mode(
                 selectedIndex == 2
-                    ? const Color(0xFF15B86C)
-                    : const Color(0xFFFFFCFC),
+                    ? Theme.of(context).colorScheme.primary
+                    : Theme.of(
+                        context,
+                      ).bottomNavigationBarTheme.unselectedItemColor!,
                 BlendMode.srcIn,
               ),
             ),
@@ -136,8 +142,10 @@ class _MainScreenState extends State<MainScreen> {
               'assets/images/profile_icon.svg',
               colorFilter: ColorFilter.mode(
                 selectedIndex == 3
-                    ? const Color(0xFF15B86C)
-                    : const Color(0xFFFFFCFC),
+                    ? Theme.of(context).colorScheme.primary
+                    : Theme.of(
+                        context,
+                      ).bottomNavigationBarTheme.unselectedItemColor!,
                 BlendMode.srcIn,
               ),
             ),

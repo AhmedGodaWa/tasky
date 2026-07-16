@@ -19,42 +19,23 @@ class HighPriorityTaskItem extends StatelessWidget {
         children: [
           Checkbox(
             value: task.isCompleted,
-            activeColor: const Color(0xFF15B86C),
             visualDensity: VisualDensity.compact,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4),
-            ),
             onChanged: onChanged,
           ),
-          //const SizedBox(width: 6),
           Expanded(
             child: Text(
               task.taskName,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: task.isCompleted
-                    ? const Color(0xFFA0A0A0)
-                    : const Color(0xFFFFFCFC),
-                decoration: task.isCompleted
-                    ? TextDecoration.lineThrough
-                    : TextDecoration.none,
-                decorationColor: const Color(0xFFA0A0A0),
-              ),
+              style: task.isCompleted
+                  ? Theme.of(context).textTheme.titleSmall!.copyWith(
+                      color: Theme.of(context).disabledColor,
+                      decoration: TextDecoration.lineThrough,
+                      decorationColor: Theme.of(context).disabledColor,
+                    )
+                  : Theme.of(context).textTheme.titleSmall,
             ),
           ),
-          // IconButton(
-          //   onPressed: () {},
-          //   constraints: const BoxConstraints(),
-          //   padding: EdgeInsets.zero,
-          //   iconSize: 18,
-          //   icon: const Icon(Icons.more_horiz),
-          //   color: task.isCompleted
-          //       ? const Color(0xFFA0A0A0)
-          //       : const Color(0xFFC6C6C6),
-          // ),
         ],
       ),
     );

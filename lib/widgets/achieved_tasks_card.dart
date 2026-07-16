@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 class AchievedTasksCard extends StatelessWidget {
@@ -22,7 +21,7 @@ class AchievedTasksCard extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFF282828),
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
@@ -31,22 +30,14 @@ class AchievedTasksCard extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+              Text(
                 'Achieved Tasks',
-                style: TextStyle(
-                  color: Color(0xFFFFFCFC),
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                ),
+                style: Theme.of(context).textTheme.titleMedium,
               ),
               const SizedBox(height: 4),
               Text(
                 '$completedTasks Out of $totalTasks Done',
-                style: const TextStyle(
-                  color: Color(0xFFC6C6C6),
-                  fontSize: 14,
-                  fontWeight: FontWeight.w300,
-                ),
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
             ],
           ),
@@ -60,18 +51,15 @@ class AchievedTasksCard extends StatelessWidget {
                   width: 48,
                   child: CircularProgressIndicator(
                     value: progress,
-                    backgroundColor: const Color(0xFF6D6D6D),
-                    color: const Color(0xFF15B86C),
+                    backgroundColor: Theme.of(context).dividerColor,
+                    color: Theme.of(context).colorScheme.primary,
                     strokeWidth: 4,
                   ),
                 ),
               ),
               Text(
                 '$percentage%',
-                style: const TextStyle(
-                  fontSize: 16,
-                  color: Color(0xFFFFFCFC),
-                ),
+                style: Theme.of(context).textTheme.titleMedium,
               ),
             ],
           ),

@@ -23,7 +23,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future<void> _loadUserData() async {
-
     setState(() {
       userName = PreferencesManager().getUserName() ?? 'Guest';
       motivation =
@@ -52,10 +51,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'My Profile',
-              style: TextStyle(fontSize: 22, color: Color(0xFFFFFCFC)),
-            ),
+            Text('My Profile', style: Theme.of(context).textTheme.titleLarge),
             Center(
               child: Column(
                 children: [
@@ -77,12 +73,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             height: 45,
                             width: 45,
                             decoration: BoxDecoration(
-                              color: const Color(0xFF282828),
+                              color: Theme.of(context).colorScheme.surface,
                               borderRadius: BorderRadius.circular(100),
                             ),
-                            child: const Icon(
+                            child: Icon(
                               Icons.camera_alt_outlined,
-                              color: Color(0xFFFFFCFC),
+                              color: Theme.of(context).colorScheme.onSurface,
                               size: 30,
                             ),
                           ),
@@ -90,30 +86,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ],
                     ),
                   ),
-                  Text(
-                    userName,
-                    style: const TextStyle(
-                      color: Color(0xFFFFFCFC),
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
+                  Text(userName, style: Theme.of(context).textTheme.titleLarge),
                   const SizedBox(height: 4),
                   Text(
                     motivation,
-                    style: const TextStyle(
-                      color: Color(0xFFC6C6C6),
-                      fontSize: 14,
-                    ),
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],
               ),
             ),
             const SizedBox(height: 24),
-            const Text(
-              'Profile Info',
-              style: TextStyle(fontSize: 20, color: Color(0xFFFFFCFC)),
-            ),
+            Text('Profile Info', style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: 10),
             ListTile(
               contentPadding: EdgeInsets.zero,
@@ -132,65 +115,65 @@ class _ProfileScreenState extends State<ProfileScreen> {
               },
               leading: SvgPicture.asset(
                 'assets/images/profile_icon.svg',
-                colorFilter: const ColorFilter.mode(
-                  Color(0xFFFFFCFC),
+                colorFilter: ColorFilter.mode(
+                  Theme.of(context).colorScheme.onSurface,
                   BlendMode.srcIn,
                 ),
               ),
-              title: const Text(
+              title: Text(
                 'User Details',
-                style: TextStyle(fontSize: 16, color: Color(0xFFFFFCFC)),
+                style: Theme.of(context).textTheme.titleMedium,
               ),
-              trailing: const Icon(
+              trailing: Icon(
                 Icons.arrow_forward_outlined,
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
-            const Divider(color: Color(0xFF6E6E6E), thickness: 1),
+            Divider(color: Theme.of(context).colorScheme.outline, thickness: 1),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 4),
               child: Row(
                 children: [
                   SvgPicture.asset(
                     'assets/images/dark_mode.svg',
-                    colorFilter: const ColorFilter.mode(
-                      Color(0xFFFFFCFC),
+                    colorFilter: ColorFilter.mode(
+                      Theme.of(context).colorScheme.onSurface,
                       BlendMode.srcIn,
                     ),
                   ),
                   const SizedBox(width: 16),
-                  const Expanded(
+                  Expanded(
                     child: Text(
                       'Dark Mode',
-                      style: TextStyle(fontSize: 16, color: Color(0xFFFFFCFC)),
+                      style: Theme.of(context).textTheme.titleMedium,
                     ),
                   ),
                   Switch(
-                    activeTrackColor: const Color(0xFF15B86C),
+                    // activeTrackColor: const Color(0xFF15B86C),
                     value: true,
                     onChanged: (value) {},
                   ),
                 ],
               ),
             ),
-            const Divider(color: Color(0xFF6E6E6E), thickness: 1),
+            Divider(color: Theme.of(context).colorScheme.outline, thickness: 1),
             ListTile(
               onTap: _logout,
               contentPadding: EdgeInsets.zero,
               leading: SvgPicture.asset(
                 'assets/images/log_out.svg',
-                colorFilter: const ColorFilter.mode(
-                  Color(0xFFFFFCFC),
+                colorFilter: ColorFilter.mode(
+                  Theme.of(context).colorScheme.onSurface,
                   BlendMode.srcIn,
                 ),
               ),
-              title: const Text(
+              title: Text(
                 'Log Out',
-                style: TextStyle(fontSize: 16, color: Color(0xFFFFFCFC)),
+                style: Theme.of(context).textTheme.titleMedium,
               ),
-              trailing: const Icon(
+              trailing: Icon(
                 Icons.arrow_forward_outlined,
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
           ],

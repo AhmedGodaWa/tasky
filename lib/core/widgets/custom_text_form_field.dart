@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tasky/core/theme/app_colors.dart';
 
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
@@ -9,7 +10,6 @@ class CustomTextFormField extends StatelessWidget {
     this.maxLines,
     this.validator,
     this.textInputAction,
-    this.borderSide = BorderSide.none,
   });
 
   final String title;
@@ -18,46 +18,24 @@ class CustomTextFormField extends StatelessWidget {
   final String hintText;
   final TextInputAction? textInputAction;
   final FormFieldValidator<String>? validator;
-  /* This means exactly: 
-      final String? Function(String?)? validator;
-  */
-  final BorderSide borderSide;
 
   @override
   Widget build(BuildContext context) {
-    final outlineBorder = OutlineInputBorder(
-      borderRadius: BorderRadius.circular(16),
-      borderSide: borderSide,
-    );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          title,
-          style: const TextStyle(color: Color(0xFFFFFCFC), fontSize: 16),
-        ),
+        Text(title, style: Theme.of(context).textTheme.titleMedium),
         const SizedBox(height: 10),
         TextFormField(
+          controller: controller,
+          validator: validator,
           maxLines: maxLines,
           textInputAction: textInputAction,
-
-          validator: validator,
-          controller: controller,
-          cursorColor: const Color(0xFFFFFCFC),
-          style: const TextStyle(color: Color(0xFFFFFCFC)),
-          decoration: InputDecoration(
-            hintText: hintText,
-            hintStyle: const TextStyle(color: Color(0xFF6D6D6D)),
-            filled: true,
-            fillColor: const Color(0xFF282828),
-            border: outlineBorder,
-            enabledBorder: outlineBorder,
-            focusedBorder: outlineBorder,
-            contentPadding: const EdgeInsets.symmetric(
-              vertical: 16,
-              horizontal: 16,
-            ),
-          ),
+          style: Theme.of(context).textTheme.bodyLarge,
+          cursorColor: Theme.of(context).brightness == Brightness.dark
+              ? AppColors.darkCursor
+              : AppColors.lightCursor,
+          decoration: InputDecoration(hintText: hintText),
         ),
       ],
     );

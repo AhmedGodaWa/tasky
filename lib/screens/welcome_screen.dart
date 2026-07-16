@@ -44,33 +44,23 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           width: 42,
                         ),
                         const SizedBox(width: 16),
-                        const Text(
+                        Text(
                           'Tasky',
-                          style: TextStyle(
-                            fontSize: 28,
-                            fontWeight: FontWeight.w400,
-                            color: Color(0xFFFFFCFC),
-                          ),
+                          style: Theme.of(context).textTheme.headlineLarge,
                         ),
                       ],
                     ),
                     const SizedBox(height: 108),
-                    const Text(
+                    Text(
                       'Welcome To Tasky',
-                      style: TextStyle(
-                        color: Color(0xFFFFFCFC),
-                        fontSize: 24,
-                        letterSpacing: 0.5,
-                      ),
+                      style: Theme.of(context).textTheme.headlineLarge,
                     ),
                     const SizedBox(height: 8),
-                    const Text(
+                    Text(
                       'Your productivity journey starts here.',
-                      style: TextStyle(
-                        color: Color(0xFFFFFCFC),
-                        fontSize: 16,
-                        letterSpacing: 0.5,
-                      ),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodyLarge!.copyWith(letterSpacing: 0.5),
                     ),
                     const SizedBox(height: 24),
                     SvgPicture.asset(

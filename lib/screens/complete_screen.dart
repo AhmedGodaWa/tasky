@@ -28,25 +28,23 @@ class _CompleteScreenState extends State<CompleteScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.all(16),
+        Padding(
+          padding: const EdgeInsets.all(16),
           child: Text(
             'Completed Tasks',
-            style: TextStyle(fontSize: 22, color: Color(0xFFFFFCFC)),
+            style: Theme.of(context).textTheme.titleLarge,
           ),
         ),
         Expanded(
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: isLoading
-                ? const Center(
-                    child: CircularProgressIndicator(color: Color(0xFF15B86C)),
-                  )
-                : widget.tasks.isEmpty
-                ? const Center(
+                ? const Center(child: CircularProgressIndicator())
+                : completedTasks.isEmpty
+                ? Center(
                     child: Text(
                       'No Tasks Completed',
-                      style: TextStyle(fontSize: 25, color: Colors.white),
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
                   )
                 : TaskList(tasks: completedTasks, onChanged: widget.onChanged),

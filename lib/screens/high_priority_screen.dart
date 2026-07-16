@@ -34,7 +34,7 @@ class _HighPriorityScreenState extends State<HighPriorityScreen> {
                   ? const Center(
                       child: Text(
                         'No high-priority tasks',
-                        style: TextStyle(fontSize: 25, color: Colors.white),
+                        style: TextStyle(fontSize: 22, color: Colors.white),
                       ),
                     )
                   : TaskList(

@@ -31,14 +31,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     return GestureDetector(
       onTap: FocusScope.of(context).unfocus,
       child: Scaffold(
-        // backgroundColor: const Color(0xFF181818),
-        appBar: AppBar(
-          backgroundColor: const Color(0xFF181818),
-          foregroundColor: const Color(0xFFFFFCFC),
-          titleSpacing: 0,
-          centerTitle: false,
-          title: const Text('New Task', style: TextStyle(fontSize: 22)),
-        ),
+        appBar: AppBar(title: const Text('New Task')),
         body: SafeArea(
           child: Column(
             children: [
@@ -84,15 +77,11 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text(
+                            Text(
                               'High Priority',
-                              style: TextStyle(
-                                color: Color(0xFFFFFCFC),
-                                fontSize: 16,
-                              ),
+                              style: Theme.of(context).textTheme.titleMedium,
                             ),
                             Switch(
-                              activeTrackColor: const Color(0xFF15B86C),
                               value: isHighPriority,
                               onChanged: (value) {
                                 setState(() {
