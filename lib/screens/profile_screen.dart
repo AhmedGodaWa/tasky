@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:tasky/core/services/preferences_manager.dart';
+import 'package:tasky/core/theme/theme_controller.dart';
 import 'package:tasky/screens/user_details_screen.dart';
 import 'package:tasky/screens/welcome_screen.dart';
 
@@ -148,10 +149,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                   ),
-                  Switch(
-                    // activeTrackColor: const Color(0xFF15B86C),
-                    value: true,
-                    onChanged: (value) {},
+                  ValueListenableBuilder(
+                    valueListenable: ThemeController.themeMode,
+                    builder: (context, themeMode, child) => Switch(
+                      // activeTrackColor: const Color(0xFF15B86C),
+                      value: themeMode == ThemeMode.dark,
+                      onChanged: ThemeController.toggleTheme,
+                    ),
                   ),
                 ],
               ),

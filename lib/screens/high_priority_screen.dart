@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tasky/models/task_model.dart';
-import 'package:tasky/widgets/task_list.dart';
+import 'package:tasky/core/widgets/task_list.dart';
 
 class HighPriorityScreen extends StatefulWidget {
   const HighPriorityScreen({

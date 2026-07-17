@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:tasky/core/services/preferences_manager.dart';
 import 'package:tasky/models/task_model.dart';
 import 'package:tasky/screens/add_task_screen.dart';
-import 'package:tasky/widgets/achieved_tasks_card.dart';
-import 'package:tasky/widgets/high_priority_tasks_widget.dart';
-import 'package:tasky/widgets/task_sliver_list.dart';
+import 'package:tasky/core/widgets/achieved_tasks_card.dart';
+import 'package:tasky/core/widgets/high_priority_tasks_widget.dart';
+import 'package:tasky/core/widgets/task_sliver_list.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({

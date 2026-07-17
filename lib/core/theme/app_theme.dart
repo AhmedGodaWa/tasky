@@ -138,6 +138,8 @@ class AppTheme {
       unselectedItemColor: AppColors.lightTextSecondary,
     ),
 
+    splashFactory: NoSplash.splashFactory,
+
     checkboxTheme: CheckboxThemeData(
       side: const BorderSide(color: AppColors.lightBorder, width: 2),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
@@ -287,6 +289,8 @@ class AppTheme {
       selectedItemColor: AppColors.primary,
       unselectedItemColor: AppColors.darkTextSecondary,
     ),
+
+    splashFactory: NoSplash.splashFactory,
 
     checkboxTheme: CheckboxThemeData(
       side: const BorderSide(color: AppColors.darkBorder, width: 2),

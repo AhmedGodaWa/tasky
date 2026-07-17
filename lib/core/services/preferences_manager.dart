@@ -5,6 +5,7 @@ class PreferencesManager {
   static const _userNameKey = 'userName';
   static const _motivationKey = 'motivation';
   static const _tasksKey = 'tasks';
+  static const _themeKey = 'isDarkMode';
 
   // Private constructor.
   PreferencesManager._internal();
@@ -60,5 +61,13 @@ class PreferencesManager {
     await _preferences.remove(_userNameKey);
     await _preferences.remove(_motivationKey);
     await _preferences.remove(_tasksKey);
+  }
+
+  Future<void> saveTheme(bool isDark) async {
+    await _preferences.setBool(_themeKey, isDark);
+  }
+
+  bool getTheme() {
+    return _preferences.getBool(_themeKey) ?? true;
   }
 }

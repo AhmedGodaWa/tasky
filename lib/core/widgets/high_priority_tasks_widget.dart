@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:tasky/core/theme/app_colors.dart';
 import 'package:tasky/models/task_model.dart';
 import 'package:tasky/screens/high_priority_screen.dart';
-import 'package:tasky/widgets/high_priority_task_item.dart';
+import 'package:tasky/core/widgets/high_priority_task_item.dart';
 
 class HighPriorityTasksWidget extends StatelessWidget {
   const HighPriorityTasksWidget({
