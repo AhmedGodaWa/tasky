@@ -12,10 +12,14 @@ class HomeScreen extends StatefulWidget {
     required this.tasks,
     required this.onChanged,
     required this.onTaskAdded,
+    required this.onDelete,
+    required this.onEdit,
   });
   final List<TaskModel> tasks;
   final void Function(TaskModel, bool?) onChanged;
   final Future<void> Function() onTaskAdded;
+  final ValueChanged<TaskModel> onDelete;
+  final ValueChanged<TaskModel> onEdit;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -115,6 +119,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     HighPriorityTasksWidget(
                       tasks: widget.tasks,
                       onChanged: widget.onChanged,
+                      onDelete: widget.onDelete,
+                      onEdit: widget.onEdit,
                     ),
                     const SizedBox(height: 10),
                     Text(
@@ -127,9 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
               const SliverToBoxAdapter(child: SizedBox(height: 10)),
               if (isLoading)
                 const SliverToBoxAdapter(
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
+                  child: Center(child: CircularProgressIndicator()),
                 )
               else if (widget.tasks.isEmpty)
                 SliverToBoxAdapter(
@@ -144,6 +148,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 TaskSliverList(
                   tasks: widget.tasks,
                   onChanged: widget.onChanged,
+                  onDelete: widget.onDelete,
+                  onEdit: widget.onEdit,
                 ),
 
               const SliverToBoxAdapter(child: SizedBox(height: 60)),
@@ -154,41 +160,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-
-/*
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        
-
-                        
-                        Expanded(
-                          child: isLoading
-                              ? const Center(
-                                  child: CircularProgressIndicator(
-                                    color: Color(0xFF15B86C),
-                                  ),
-                                )
-                              : widget.tasks.isEmpty
-                              ? const Center(
-                                  child: Text(
-                                    'No Data',
-                                    style: TextStyle(
-                                      fontSize: 25,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                )
-                              : TaskList(
-                                  tasks: widget.tasks,
-                                  onChanged: widget.onChanged,
-                                ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-
- */

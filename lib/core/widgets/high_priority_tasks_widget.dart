@@ -10,10 +10,14 @@ class HighPriorityTasksWidget extends StatelessWidget {
     super.key,
     required this.tasks,
     required this.onChanged,
+    required this.onDelete,
+    required this.onEdit,
   });
 
   final List<TaskModel> tasks;
   final void Function(TaskModel, bool?) onChanged;
+  final ValueChanged<TaskModel> onDelete;
+  final ValueChanged<TaskModel> onEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -70,8 +74,12 @@ class HighPriorityTasksWidget extends StatelessWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      HighPriorityScreen(tasks: tasks, onChanged: onChanged),
+                  builder: (context) => HighPriorityScreen(
+                    tasks: tasks,
+                    onChanged: onChanged,
+                    onDelete: onDelete,
+                    onEdit: onEdit,
+                  ),
                 ),
               ),
               child: Container(

@@ -3,9 +3,17 @@ import 'package:tasky/models/task_model.dart';
 import 'package:tasky/core/widgets/task_list.dart';
 
 class TodoScreen extends StatefulWidget {
-  const TodoScreen({super.key, required this.tasks, required this.onChanged});
+  const TodoScreen({
+    super.key,
+    required this.tasks,
+    required this.onChanged,
+    required this.onDelete,
+    required this.onEdit,
+  });
   final List<TaskModel> tasks;
   final void Function(TaskModel, bool?) onChanged;
+  final ValueChanged<TaskModel> onDelete;
+  final ValueChanged<TaskModel> onEdit;
 
   @override
   State<TodoScreen> createState() => _TodoScreenState();
@@ -41,7 +49,12 @@ class _TodoScreenState extends State<TodoScreen> {
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                   )
-                : TaskList(tasks: todoTasks, onChanged: widget.onChanged),
+                : TaskList(
+                    tasks: todoTasks,
+                    onChanged: widget.onChanged,
+                    onDelete: widget.onDelete,
+                    onEdit: widget.onEdit,
+                  ),
           ),
         ),
       ],

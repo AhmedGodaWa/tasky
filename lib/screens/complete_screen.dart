@@ -7,10 +7,14 @@ class CompleteScreen extends StatefulWidget {
     super.key,
     required this.tasks,
     required this.onChanged,
+    required this.onDelete,
+    required this.onEdit,
   });
 
   final List<TaskModel> tasks;
   final void Function(TaskModel, bool?) onChanged;
+  final ValueChanged<TaskModel> onDelete;
+  final ValueChanged<TaskModel> onEdit;
 
   @override
   State<CompleteScreen> createState() => _CompleteScreenState();
@@ -47,7 +51,12 @@ class _CompleteScreenState extends State<CompleteScreen> {
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                   )
-                : TaskList(tasks: completedTasks, onChanged: widget.onChanged),
+                : TaskList(
+                    tasks: completedTasks,
+                    onChanged: widget.onChanged,
+                    onDelete: widget.onDelete,
+                    onEdit: widget.onEdit,
+                  ),
           ),
         ),
       ],

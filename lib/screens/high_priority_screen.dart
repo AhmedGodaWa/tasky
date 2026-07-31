@@ -7,10 +7,15 @@ class HighPriorityScreen extends StatefulWidget {
     super.key,
     required this.tasks,
     required this.onChanged,
+    required this.onDelete,
+    required this.onEdit,
   });
 
   final List<TaskModel> tasks;
   final void Function(TaskModel, bool?) onChanged;
+  final ValueChanged<TaskModel> onDelete;
+  final ValueChanged<TaskModel> onEdit;
+
   @override
   State<HighPriorityScreen> createState() => _HighPriorityScreenState();
 }
@@ -41,6 +46,16 @@ class _HighPriorityScreenState extends State<HighPriorityScreen> {
                       tasks: highPriorityTasks,
                       onChanged: (task, value) {
                         widget.onChanged(task, value);
+
+                        setState(() {});
+                      },
+                      onDelete: (task) {
+                        widget.onDelete(task);
+
+                        setState(() {});
+                      },
+                      onEdit: (updatedTask) {
+                        widget.onEdit(updatedTask);
 
                         setState(() {});
                       },

@@ -67,6 +67,26 @@ class _MainScreenState extends State<MainScreen> {
     _saveTasks();
   }
 
+  void _deleteTask(TaskModel task) {
+    setState(() {
+      tasks.removeWhere((t) => t.id == task.id);
+    });
+
+    _saveTasks();
+  }
+
+  Future<void> _updateTask(TaskModel updatedTask) async {
+    final index = tasks.indexWhere((task) => task.id == updatedTask.id);
+
+    if (index != -1) {
+      tasks[index] = updatedTask;
+
+      await _saveTasks();
+
+      setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final screens = [
@@ -74,9 +94,21 @@ class _MainScreenState extends State<MainScreen> {
         tasks: tasks,
         onChanged: _onTaskChanged,
         onTaskAdded: _loadTasks,
+        onDelete: _deleteTask,
+        onEdit: _updateTask,
       ),
-      TodoScreen(tasks: tasks, onChanged: _onTaskChanged),
-      CompleteScreen(tasks: tasks, onChanged: _onTaskChanged),
+      TodoScreen(
+        tasks: tasks,
+        onChanged: _onTaskChanged,
+        onDelete: _deleteTask,
+        onEdit: _updateTask,
+      ),
+      CompleteScreen(
+        tasks: tasks,
+        onChanged: _onTaskChanged,
+        onDelete: _deleteTask,
+        onEdit: _updateTask,
+      ),
       const ProfileScreen(),
     ];
 

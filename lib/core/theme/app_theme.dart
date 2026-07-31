@@ -34,6 +34,9 @@ class AppTheme {
       ),
     ),
 
+    // Removes the default Material ripple animation when tapping widgets.
+    splashFactory: NoSplash.splashFactory,
+
     disabledColor: AppColors.lightDisabledText,
     dividerColor: AppColors.lightProgressTrack,
 
@@ -138,7 +141,11 @@ class AppTheme {
       unselectedItemColor: AppColors.lightTextSecondary,
     ),
 
-    splashFactory: NoSplash.splashFactory,
+      textButtonTheme: const TextButtonThemeData(
+      style: ButtonStyle(
+        foregroundColor: WidgetStatePropertyAll(AppColors.black),
+      ),
+    ),
 
     checkboxTheme: CheckboxThemeData(
       side: const BorderSide(color: AppColors.lightBorder, width: 2),
@@ -153,6 +160,16 @@ class AppTheme {
 
         return null;
       }),
+    ),
+
+    popupMenuTheme: PopupMenuThemeData(
+      color: AppColors.lightBackground,
+      elevation: 0,
+      textStyle: const TextStyle(color: AppColors.lightTextPrimary),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: const BorderSide(color: AppColors.primary, width: 1.4),
+      ),
     ),
   );
 
@@ -185,6 +202,9 @@ class AppTheme {
         color: AppColors.darkTextPrimary,
       ),
     ),
+
+    // Removes the default Material ripple animation when tapping widgets.
+    splashFactory: NoSplash.splashFactory,
 
     disabledColor: AppColors.darkDisabledText,
     dividerColor: AppColors.darkProgressTrack,
@@ -290,7 +310,11 @@ class AppTheme {
       unselectedItemColor: AppColors.darkTextSecondary,
     ),
 
-    splashFactory: NoSplash.splashFactory,
+    textButtonTheme: const TextButtonThemeData(
+      style: ButtonStyle(
+        foregroundColor: WidgetStatePropertyAll(AppColors.white),
+      ),
+    ),
 
     checkboxTheme: CheckboxThemeData(
       side: const BorderSide(color: AppColors.darkBorder, width: 2),
@@ -305,6 +329,16 @@ class AppTheme {
 
         return null;
       }),
+    ),
+
+    popupMenuTheme: PopupMenuThemeData(
+      color: AppColors.darkBackground,
+      elevation: 0,
+      textStyle: const TextStyle(color: AppColors.darkTextPrimary),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: const BorderSide(color: AppColors.primary, width: 1.4),
+      ),
     ),
   );
 }
