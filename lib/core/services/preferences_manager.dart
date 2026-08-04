@@ -6,6 +6,7 @@ class PreferencesManager {
   static const _motivationKey = 'motivation';
   static const _tasksKey = 'tasks';
   static const _themeKey = 'isDarkMode';
+  static const _profileImageKey = 'profileImage';
 
   // Private constructor.
   PreferencesManager._internal();
@@ -69,5 +70,13 @@ class PreferencesManager {
 
   bool getTheme() {
     return _preferences.getBool(_themeKey) ?? true;
+  }
+
+  Future<void> saveProfileImage(String imagePath) async {
+    await _preferences.setString(_profileImageKey, imagePath);
+  }
+
+  String? getProfileImage() {
+    return _preferences.getString(_profileImageKey);
   }
 }

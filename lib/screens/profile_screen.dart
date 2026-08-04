@@ -1,5 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart';
 import 'package:tasky/core/services/preferences_manager.dart';
 import 'package:tasky/core/theme/theme_controller.dart';
 import 'package:tasky/screens/user_details_screen.dart';
@@ -17,10 +22,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String motivation = 'One task at a time. One step closer.';
   bool isLoading = false;
 
+  final _picker = ImagePicker();
+  File? _profileImage;
+
   @override
   void initState() {
     super.initState();
     _loadUserData();
+    _loadProfileImage();
   }
 
   Future<void> _loadUserData() async {
@@ -44,6 +53,138 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  Future<void> _pickImage(ImageSource source) async {
+    final XFile? image = await _picker.pickImage(source: source);
+
+    if (image == null) return;
+
+    final File file = await _saveImagePermanently(image);
+
+    await PreferencesManager().saveProfileImage(file.path);
+
+    setState(() {
+      _profileImage = file;
+    });
+  }
+
+  Future<File> _saveImagePermanently(XFile image) async {
+    final directory = await getApplicationDocumentsDirectory();
+
+    final fileName = path.basename(image.path);
+
+    final newImage = await File(
+      image.path,
+    ).copy(path.join(directory.path, fileName));
+
+    return newImage;
+  }
+
+  void _loadProfileImage() {
+    final String? imagePath = PreferencesManager().getProfileImage();
+
+    if (imagePath == null) return;
+
+    final File image = File(imagePath);
+
+    setState(() {
+      _profileImage = image;
+    });
+  }
+
+  Future<void> _showImagePickerBottomSheet() async {
+    await showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.all(16),
+          child: SizedBox(
+            height: 220,
+            child: Column(
+              children: [
+                Text(
+                  "Choose Image",
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const SizedBox(height: 20),
+
+                Center(
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(12),
+                    onTap: () {
+                      Navigator.pop(context);
+                      _pickImage(ImageSource.camera);
+                    },
+                    child: Container(
+                      width: 300,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 14,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: Theme.of(context).colorScheme.outline,
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.camera_alt_outlined),
+                          const SizedBox(width: 8),
+                          Text(
+                            'Camera',
+                            style: Theme.of(context).textTheme.titleSmall,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Center(
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(12),
+                    onTap: () {
+                      Navigator.pop(context);
+                      _pickImage(ImageSource.gallery);
+                    },
+                    child: Container(
+                      width: 300,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 14,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: Theme.of(context).colorScheme.outline,
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.photo_library_outlined),
+                          const SizedBox(width: 8),
+                          Text(
+                            'Gallery',
+                            style: Theme.of(context).textTheme.titleSmall,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -61,15 +202,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: Stack(
                       alignment: Alignment.bottomRight,
                       children: [
-                        const CircleAvatar(
+                        CircleAvatar(
                           radius: 75,
-                          backgroundImage: AssetImage(
-                            'assets/images/profile.png',
-                          ),
+                          backgroundImage: _profileImage == null
+                              ? const AssetImage('assets/images/profile.png')
+                              : FileImage(_profileImage!),
                           backgroundColor: Colors.transparent,
                         ),
                         GestureDetector(
-                          onTap: () {},
+                          onTap: _showImagePickerBottomSheet,
                           child: Container(
                             height: 45,
                             width: 45,

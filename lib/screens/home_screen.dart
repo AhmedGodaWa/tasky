@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:tasky/core/services/preferences_manager.dart';
 import 'package:tasky/models/task_model.dart';
@@ -29,10 +31,13 @@ class _HomeScreenState extends State<HomeScreen> {
   String userName = '';
   bool isLoading = false;
 
+  File? _profileImage;
+
   @override
   void initState() {
     super.initState();
     _loadUserName();
+    _loadProfileImage();
   }
 
   Future<void> _loadUserName() async {
@@ -43,6 +48,18 @@ class _HomeScreenState extends State<HomeScreen> {
         userName = savedName;
       });
     }
+  }
+
+  void _loadProfileImage() {
+    final String? imagePath = PreferencesManager().getProfileImage();
+
+    if (imagePath == null) return;
+
+    final File image = File(imagePath);
+
+    setState(() {
+      _profileImage = image;
+    });
   }
 
   @override
@@ -82,11 +99,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     Row(
                       children: [
-                        Image.asset(
-                          'assets/images/person.png',
-                          height: 42,
-                          width: 42,
-                        ),
+                        _profileImage == null
+                            ? Image.asset(
+                                'assets/images/person.png',
+                                height: 42,
+                                width: 42,
+                              )
+                            : Image.file(_profileImage!, height: 42, width: 42),
                         const SizedBox(width: 8),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
