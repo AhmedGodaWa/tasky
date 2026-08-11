@@ -62,6 +62,7 @@ class PreferencesManager {
     await _preferences.remove(_userNameKey);
     await _preferences.remove(_motivationKey);
     await _preferences.remove(_tasksKey);
+    await _preferences.remove(_profileImageKey);
   }
 
   Future<void> saveTheme(bool isDark) async {

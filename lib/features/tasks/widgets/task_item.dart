@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tasky/core/enums/menu_action.dart';
 import 'package:tasky/core/widgets/custom_text_form_field.dart';
 import 'package:tasky/core/widgets/primary_button.dart';
-import 'package:tasky/models/task_model.dart';
+import 'package:tasky/features/tasks/models/task_model.dart';
 
 class TaskItem extends StatelessWidget {
   const TaskItem({

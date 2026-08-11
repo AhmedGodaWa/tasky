@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:tasky/core/app_router.dart';
+import 'package:provider/provider.dart';
+import 'package:tasky/core/router/app_router.dart';
 import 'package:tasky/core/services/preferences_manager.dart';
 import 'package:tasky/core/theme/app_theme.dart';
 import 'package:tasky/core/theme/theme_controller.dart';
+import 'package:tasky/features/profile/controllers/user_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,7 +15,16 @@ void main() async {
 
   final String? userName = PreferencesManager().getUserName();
 
-  runApp(MyApp(name: userName));
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => UserController(PreferencesManager()),
+        ),
+      ],
+      child: MyApp(name: userName),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

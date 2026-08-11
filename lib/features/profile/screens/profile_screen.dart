@@ -5,10 +5,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
-import 'package:tasky/core/services/preferences_manager.dart';
+import 'package:provider/provider.dart';
 import 'package:tasky/core/theme/theme_controller.dart';
-import 'package:tasky/screens/user_details_screen.dart';
-import 'package:tasky/screens/welcome_screen.dart';
+import 'package:tasky/features/profile/controllers/user_controller.dart';
+import 'package:tasky/features/profile/screens/user_details_screen.dart';
+import 'package:tasky/features/welcome/screens/welcome_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -18,31 +19,14 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  String userName = 'Guest';
-  String motivation = 'One task at a time. One step closer.';
   bool isLoading = false;
 
   final _picker = ImagePicker();
-  File? _profileImage;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadUserData();
-    _loadProfileImage();
-  }
-
-  Future<void> _loadUserData() async {
-    setState(() {
-      userName = PreferencesManager().getUserName() ?? 'Guest';
-      motivation =
-          PreferencesManager().getMotivation() ??
-          'One task at a time. One step closer.';
-    });
-  }
 
   Future<void> _logout() async {
-    await PreferencesManager().clearUserData();
+    final userController = context.read<UserController>();
+
+    await userController.clearUserData();
 
     if (!mounted) return;
 
@@ -54,17 +38,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future<void> _pickImage(ImageSource source) async {
+    final userController = context.read<UserController>();
+
     final XFile? image = await _picker.pickImage(source: source);
 
     if (image == null) return;
 
     final File file = await _saveImagePermanently(image);
 
-    await PreferencesManager().saveProfileImage(file.path);
-
-    setState(() {
-      _profileImage = file;
-    });
+    await userController.updateProfileImage(file.path);
   }
 
   Future<File> _saveImagePermanently(XFile image) async {
@@ -77,18 +59,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     ).copy(path.join(directory.path, fileName));
 
     return newImage;
-  }
-
-  void _loadProfileImage() {
-    final String? imagePath = PreferencesManager().getProfileImage();
-
-    if (imagePath == null) return;
-
-    final File image = File(imagePath);
-
-    setState(() {
-      _profileImage = image;
-    });
   }
 
   Future<void> _showImagePickerBottomSheet() async {
@@ -184,7 +154,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -202,12 +171,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: Stack(
                       alignment: Alignment.bottomRight,
                       children: [
-                        CircleAvatar(
-                          radius: 75,
-                          backgroundImage: _profileImage == null
-                              ? const AssetImage('assets/images/profile.png')
-                              : FileImage(_profileImage!),
-                          backgroundColor: Colors.transparent,
+                        Selector<UserController, String>(
+                          selector: (_, controller) => controller.profileImage,
+                          builder: (context, imagePath, child) {
+                            return CircleAvatar(
+                              radius: 75,
+                              backgroundImage: imagePath.isEmpty
+                                  ? const AssetImage(
+                                      'assets/images/profile.png',
+                                    )
+                                  : FileImage(File(imagePath)),
+                              backgroundColor: Colors.transparent,
+                            );
+                          },
                         ),
                         GestureDetector(
                           onTap: _showImagePickerBottomSheet,
@@ -228,11 +204,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ],
                     ),
                   ),
-                  Text(userName, style: Theme.of(context).textTheme.titleLarge),
+                  Selector<UserController, String>(
+                    selector: (_, controller) => controller.userName,
+                    builder: (context, userName, child) {
+                      return Text(
+                        userName,
+                        style: Theme.of(context).textTheme.titleLarge,
+                      );
+                    },
+                  ),
                   const SizedBox(height: 4),
-                  Text(
-                    motivation,
-                    style: Theme.of(context).textTheme.bodyMedium,
+                  Selector<UserController, String>(
+                    selector: (_, controller) => controller.motivation,
+                    builder: (context, motivation, child) {
+                      return Text(
+                        motivation,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      );
+                    },
                   ),
                 ],
               ),
@@ -242,18 +231,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const SizedBox(height: 10),
             ListTile(
               contentPadding: EdgeInsets.zero,
-              onTap: () async {
+              onTap: () {
                 // Navigate to User Details Screen
-                final result = await Navigator.push(
+                Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => const UserDetailsScreen(),
                   ),
                 );
-
-                if (result == true && result != null) {
-                  _loadUserData();
-                }
               },
               leading: SvgPicture.asset(
                 'assets/images/profile_icon.svg',

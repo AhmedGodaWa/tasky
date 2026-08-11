@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tasky/core/services/preferences_manager.dart';
+import 'package:provider/provider.dart';
 import 'package:tasky/core/widgets/custom_text_form_field.dart';
 import 'package:tasky/core/widgets/primary_button.dart';
+import 'package:tasky/features/profile/controllers/user_controller.dart';
 
 class UserDetailsScreen extends StatefulWidget {
   const UserDetailsScreen({super.key});
@@ -24,26 +25,27 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
 
   @override
   void initState() {
-    _loadUserData();
+    _initializeUserData();
     super.initState();
   }
 
-  Future<void> _loadUserData() async {
-    _userNameController.text = PreferencesManager().getUserName() ?? '';
-    _motivationController.text =
-        PreferencesManager().getMotivation() ??
-        'One task at a time. One step closer.';
+  void _initializeUserData() {
+    final userController = context.read<UserController>();
+
+    _userNameController.text = userController.userName;
+    _motivationController.text = userController.motivation;
   }
 
   Future<void> _saveUserData() async {
     if (!_formKey.currentState!.validate()) return;
 
-    await PreferencesManager().saveUserName(_userNameController.text.trim());
-    await PreferencesManager().saveMotivation(
-      _motivationController.text.trim(),
+    await context.read<UserController>().updateUser(
+      newUserName: _userNameController.text,
+      newMotivation: _motivationController.text,
     );
 
     if (!mounted) return;
+
     Navigator.pop(context, true);
   }
 

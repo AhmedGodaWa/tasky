@@ -1,39 +1,41 @@
 import 'package:flutter/material.dart';
-import 'package:tasky/models/task_model.dart';
-import 'package:tasky/core/widgets/task_list.dart';
+import 'package:tasky/features/tasks/models/task_model.dart';
+import 'package:tasky/features/tasks/widgets/task_list.dart';
 
-class TodoScreen extends StatefulWidget {
-  const TodoScreen({
+class CompleteScreen extends StatefulWidget {
+  const CompleteScreen({
     super.key,
     required this.tasks,
     required this.onChanged,
     required this.onDelete,
     required this.onEdit,
   });
+
   final List<TaskModel> tasks;
   final void Function(TaskModel, bool?) onChanged;
   final ValueChanged<TaskModel> onDelete;
   final ValueChanged<TaskModel> onEdit;
 
   @override
-  State<TodoScreen> createState() => _TodoScreenState();
+  State<CompleteScreen> createState() => _CompleteScreenState();
 }
 
-class _TodoScreenState extends State<TodoScreen> {
+class _CompleteScreenState extends State<CompleteScreen> {
   bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
-    final todoTasks = widget.tasks
-        .where((element) => !element.isCompleted)
+    final completedTasks = widget.tasks
+        .where((task) => task.isCompleted)
         .toList();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.all(16),
           child: Text(
-            'ToDo Tasks',
+            'Completed Tasks',
             style: Theme.of(context).textTheme.titleLarge,
           ),
         ),
@@ -42,15 +44,15 @@ class _TodoScreenState extends State<TodoScreen> {
             padding: const EdgeInsets.all(16),
             child: isLoading
                 ? const Center(child: CircularProgressIndicator())
-                : todoTasks.isEmpty
+                : completedTasks.isEmpty
                 ? Center(
                     child: Text(
-                      'No Tasks',
+                      'No Tasks Completed',
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                   )
                 : TaskList(
-                    tasks: todoTasks,
+                    tasks: completedTasks,
                     onChanged: widget.onChanged,
                     onDelete: widget.onDelete,
                     onEdit: widget.onEdit,

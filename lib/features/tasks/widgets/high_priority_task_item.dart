@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tasky/models/task_model.dart';
+import 'package:tasky/features/tasks/models/task_model.dart';
 
 class HighPriorityTaskItem extends StatelessWidget {
   const HighPriorityTaskItem({

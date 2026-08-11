@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:tasky/core/services/preferences_manager.dart';
-import 'package:tasky/models/task_model.dart';
-import 'package:tasky/screens/complete_screen.dart';
-import 'package:tasky/screens/home_screen.dart';
-import 'package:tasky/screens/profile_screen.dart';
-import 'package:tasky/screens/todo_screen.dart';
+import 'package:tasky/features/tasks/models/task_model.dart';
+import 'package:tasky/features/tasks/screens/complete_screen.dart';
+import 'package:tasky/features/home/screens/home_screen.dart';
+import 'package:tasky/features/profile/screens/profile_screen.dart';
+import 'package:tasky/features/tasks/screens/todo_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
